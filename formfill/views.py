@@ -1,6 +1,8 @@
 import speech_recognition as sr
 from django.http import JsonResponse
 from django.shortcuts import render
+from models import Account
+from forms import AccountForm
 
 def home(request):
     return render(request, 'index.html')
@@ -30,3 +32,23 @@ def extract_text_from_audio(request):
             return JsonResponse({'error': 'Unable to transcribe audio. Recognition service error.'}, status=500)
 
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+def submit_form_api(request):
+    if request.method == 'POST':
+        form = AccountForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            city = form.cleaned_data['city']
+            district = form.cleaned_data['district']
+            mobile_number = form.cleaned_data['mobile_number']
+            
+            user = Account(name=name, city=city, district=district, mobile_number=mobile_number)
+            user.save()
+
+            return JsonResponse({'success': True, 'message': 'Form submitted successfully'})
+        else:
+            errors = form.errors.as_json()
+            return JsonResponse({'success': False, 'errors': errors}, status=400)
+    else:
+        return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)

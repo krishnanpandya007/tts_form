@@ -55,7 +55,7 @@
         formData.append('audioFile', audioBlob, 'recording.webm');
 
         $.ajax({
-          url: '/api/extract_text/',
+          url: '/extract_text/',
           type: 'POST',
           data: formData,
           processData: false,
