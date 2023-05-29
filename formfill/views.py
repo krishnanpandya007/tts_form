@@ -1,8 +1,8 @@
 import speech_recognition as sr
 from django.http import JsonResponse
 from django.shortcuts import render
-from models import Account
-from forms import AccountForm
+from .models import Person
+from .forms import AccountForm
 
 def home(request):
     return render(request, 'index.html')
@@ -43,7 +43,7 @@ def submit_form_api(request):
             district = form.cleaned_data['district']
             mobile_number = form.cleaned_data['mobile_number']
             
-            user = Account(name=name, city=city, district=district, mobile_number=mobile_number)
+            user = Person(name=name, city=city, district=district, mobile_number=mobile_number)
             user.save()
 
             return JsonResponse({'success': True, 'message': 'Form submitted successfully'})
