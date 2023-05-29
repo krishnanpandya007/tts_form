@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Audio Input Form</title>
+</head>
+<body>
+  <h1>Audio Input Form</h1>
+
+  <form id="audioForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <button class="speakButton" data-field="name">Speak</button><br><br>
+
+    <label for="city">Name of City:</label>
+    <input type="text" id="city" name="city" required>
+    <button class="speakButton" data-field="city">Speak</button><br><br>
+
+    <label for="district">District:</label>
+    <input type="text" id="district" name="district" required>
+    <button class="speakButton" data-field="district">Speak</button><br><br>
+
+    <label for="mobile">Mobile Number:</label>
+    <input type="text" id="mobile" name="mobile" required>
+    <button class="speakButton" data-field="mobile">Speak</button><br><br>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    // Function to handle recording audio and sending it to the backend
+    function handleAudioRecording(fieldId) {
+      const mediaRecorderChunks = [];
+      let mediaRecorder;
+
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then((stream) => {
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.start();
+
+          mediaRecorder.addEventListener('dataavailable', (event) => {
+            mediaRecorderChunks.push(event.data);
+          });
+        })
+        .catch((error) => {
+          console.error('Error accessing microphone:', error);
+        });
+
+      setTimeout(() => {
+        mediaRecorder.stop();
+
+        const audioBlob = new Blob(mediaRecorderChunks, { type: 'audio/webm' });
+        const formData = new FormData();
+        formData.append('audioFile', audioBlob, 'recording.webm');
+
+        $.ajax({
+          url: '/api/extract_text/',
+          type: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+            if (response.success) {
+              const extractedText = response.data.text;
+              $('#' + fieldId).val(extractedText);
+            } else if (response.error) {
+              console.error('Error:', response.error);
+            }
+          },
+          error: function(xhr, status, error) {
+            console.error('Error:', error);
+          }
+        });
+      }, 5000); // Set the recording duration (in milliseconds)
+    }
+
+    $(document).ready(function() {
+      // Add event listener to all speak buttons
+      $('.speakButton').on('click', function() {
+        const fieldId = $(this).data('field');
+        handleAudioRecording(fieldId);
+      });
+
+      // Submit form
+      $('#audioForm').on('submit', function(event) {
+        event.preventDefault();
+
+        // Submit form data to the backend
+        const formData = new FormData(this);
+
+        $.ajax({
+          url: '/api/submit_form/',
+          type: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+            if (response.success) {
+              // Handle success response
+              console.log('Form submitted successfully!');
+            } else if (response.error) {
+              console.error('Error:', response.error);
+            }
+          },
+          error: function(xhr, status, error) {
+            console.error('Error:', error);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
