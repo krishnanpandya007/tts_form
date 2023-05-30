@@ -104,6 +104,49 @@ def index(request):
     return render(request, 'index.html')
 
 
+def mockform(request):
+    if request.method == 'POST':
+        audio_file = request.FILES['audioFile']
+        audioField = request.GET.get('audioField', '') # name | city | district | phone
+        preValues = {
+            'name': request.POST.get('name', ''),
+            'city': request.POST.get('city', ''),
+            'district': request.POST.get('district', ''),
+            'phone': request.POST.get('phone', ''),
+        }
+        # preName = request.GET.get('name', '')
+        # preCity = request.GET.get('city', '')
+        # preDistrict = request.GET.get('district', '') 
+        # prePhone = request.GET.get('phone', '') 
+
+        # Configure the speech recognizer
+        recognizer = sr.Recognizer()
+
+        try:
+            # Load the audio file
+            with sr.AudioFile(audio_file) as source:
+                audio = recognizer.record(source)
+
+            # Extract text from audio
+            text = recognizer.recognize_google(audio)
+
+            preValues[audioField] = text
+
+            return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False})
+
+        except Exception as e:
+            preValues[audioField] = False
+            # Error parsing text
+            return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False})
+
+    else:
+        return render(request, 'mockform.html', context={'name': '',
+            'city': '',
+            'district': '',
+            'phone': '',
+        'name_error': True,'city_error': False,'district_error': False,'phone_error': False
+        })
+
 
 
 # # # myapp/views.py

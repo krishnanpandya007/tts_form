@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+</head>
+<body>
+    <!-- <form> -->
+        <table>
+            <tr>
+
+                <td>
+                    <label for="name">Name:</label>
+
+                </td>
+                <td>
+                    <input type="text" id="name" style="{% if name_error %} border: 2px solid red {% endif %}" value="{{ name }}" name="name" >
+
+                    {% if name_error %} 
+                        <br/><small><b>Retry speaking again!</b></small>
+                    {% endif %}
+                </td>
+                <td>
+
+                    <button class="speakButton" data-field="name">Speak</button><br><br>
+                </td>
+            </tr>
+        <tr>
+            <td>
+
+                <label for="city">Name of City:</label>
+            </td>
+            <td>
+
+                <input type="text" style="{% if city_error %} border: 2px solid red {% endif %}" value="{{ city }}" id="city" name="city" >
+                {% if city_error %} 
+                <br/><small><b>Retry speaking again!</b></small>
+                {% endif %}
+            </td>
+            <td>
+
+                <button class="speakButton" data-field="city">Speak</button><br><br>
+            </td>
+    
+
+        </tr>
+            <tr>
+                <td>
+
+                    <label for="district">District:</label>
+                </td>
+                <td>
+
+                    <input type="text" style="{% if district_error %} border: 2px solid red {% endif %}" value="{{ district }}" id="district" name="district" >
+                    {% if district_error %} 
+                    <br/><small><b>Retry speaking again!</b></small>
+                    {% endif %}
+                </td>
+                <td>
+
+                    
+                    <button class="speakButton" data-field="district">Speak</button><br><br>
+                </td>
+            </tr>
+        
+            <tr>
+                <td>
+
+                    <label for="mobile">Mobile Number:</label>
+                </td>
+                <td>
+
+                    <input type="text" style="{% if phone_error %} border: 2px solid red {% endif %}" value="{{ phone }}" id="phone" name="mobile" >
+                    {% if phone_error %} 
+                    <br/><small><b>Retry speaking again!</b></small>
+                    {% endif %}
+                </td>
+                <td>
+
+                    <button class="speakButton" data-field="phone">Speak</button><br><br>
+                </td>
+            </tr>
+        
+        </table>
+        <button type="submit">Submit</button>
+        <audio autoplay>
+            <source src="{{ MEDIA_URL }}audio/form_greetings.m4a" type="audio/m4a">
+          </audio>
+        <audio id="my_audio" src="{{ MEDIA_URL }}audio/form_greetings.m4a" autoplay="autoplay loop="loop"></audio>
+    <!-- </form> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+
+function handleAudioRecording(fieldId) {
+      const mediaRecorderChunks = [];
+      let mediaRecorder;
+        
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then((stream) => {
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.start();
+
+          mediaRecorder.addEventListener('dataavailable', (event) => {
+            mediaRecorderChunks.push(event.data);
+          });
+        })
+        .catch((error) => {
+          console.error('Error accessing microphone:', error);
+        });
+
+      setTimeout(() => {
+        mediaRecorder.stop();
+
+        const audioBlob = new Blob(mediaRecorderChunks, { type: 'audio/webm' });
+        const formData = new FormData();
+        formData.append('audioFile', audioBlob, 'recording.webm');
+
+        $.ajax({
+          url: '/extract_text/',
+          type: 'POST',
+          headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+          },
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+            if (response.success) {
+              const extractedText = response.data.text;
+              $('#' + fieldId).val(extractedText);
+            } else if (response.error) {
+              console.error('Error:', response.error);
+            }
+          },
+          error: function(xhr, status, error) {
+            console.error('Error:', error);
+          }
+        });
+      }, 5000); // Set the recording duration (in milliseconds)
+    }
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        $(document).ready(function() {
+            // IDK why this audio not playing 
+            $("#my_audio").get(0).play();
+            $('.speakButton').on('click', function(e) {
+                e.preventDefault();
+                const fieldId = $(this).data('field');
+                handleAudioRecording(fieldId);
+            });
+        })
+
+        let name = document.getElementById('name');
+        let city = document.getElementById('city');
+        let district = document.getElementById('district');
+        let phone = document.getElementById('phone');
+
+        name.addEventListener('focus', (e)=> {
+
+            new Audio("{{ MEDIA_URL }}audio/form_name.m4a").play().then((v) => {
+                setTimeout(() => {handleAudioRecording('name')}, 3000);
+                // handleAudioRecording('name');
+            });
+
+        })
+
+        city.addEventListener('focus', (e)=> {
+
+            new Audio("{{ MEDIA_URL }}audio/form_city2.m4a").play().then((v) => {
+                setTimeout(() => {handleAudioRecording('city')}, 3000);
+            });
+
+        })
+
+        district.addEventListener('focus', (e)=> {
+
+            new Audio("{{ MEDIA_URL }}audio/form_district.m4a").play().then((v) => {
+                setTimeout(() => {handleAudioRecording('district')}, 3000);
+            });
+
+        })
+
+        phone.addEventListener('focus', (e)=> {
+
+            new Audio("{{ MEDIA_URL }}audio/form_phone.m4a").play().then((v) => {
+                setTimeout(() => {handleAudioRecording('phone')}, 6000);
+            });
+
+        })
+
+    </script>
+</body>
+</html>
