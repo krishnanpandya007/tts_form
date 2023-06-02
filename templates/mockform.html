@@ -176,7 +176,7 @@ function handleAudioRecording(fieldId) {
 
         name.addEventListener('focus', (e)=> {
 
-            new Audio("{{ MEDIA_URL }}audio/form_name.m4a").play().then((v) => {
+            new Audio("{{ MEDIA_URL }}audio/form_name.mp3").play().then((v) => {
                 setTimeout(() => {handleAudioRecording('name')}, 3000);
                 // handleAudioRecording('name');
             });

@@ -18,7 +18,6 @@
     var audioStream;
     var audioContext;
     var recorder;
-    var recordedBlob;
 
     recordButton.addEventListener('click', startRecording);
     stopButton.addEventListener('click', stopRecording);
@@ -27,6 +26,7 @@
     function startRecording() {
       recordButton.disabled = true;
       stopButton.disabled = false;
+      downloadButton.disabled = true;
 
       var constraints = { audio: true };
 
@@ -37,8 +37,8 @@
           var input = audioContext.createMediaStreamSource(stream);
           recorder = new Recorder(input, {
             numChannels: 1, // Set to 1 for mono recording
-            sampleRate: 44100, // Set the desired sample rate (44100 Hz by default)
-            bitRate: 128000 // Set the desired bitrate (128000 bps by default)
+            sampleRate: 104100, // Set the desired sample rate (44100 Hz by default)
+            bitRate: 928000 // Set the desired bitrate (128000 bps by default)
           });
           recorder.record();
         })
@@ -55,21 +55,21 @@
       recorder.stop();
       audioStream.getAudioTracks()[0].stop();
       recorder.exportWAV(function(blob) {
-        recordedBlob = blob;
+        var url = URL.createObjectURL(blob);
+        downloadButton.href = url;
       });
       recorder.clear();
     }
 
     function downloadRecording() {
-      var url = URL.createObjectURL(recordedBlob);
-      var filename = ' audio/ ';
+      var fileName = 'recording.wav';
       var a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
       document.body.appendChild(a);
+      a.style = 'display: none';
+      a.href = downloadButton.href;
+      a.download = fileName;
       a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
+      window.URL.revokeObjectURL(downloadButton.href);
     }
   </script>
 </body>
