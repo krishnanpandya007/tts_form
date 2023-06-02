@@ -7,8 +7,8 @@ from django.shortcuts import render
 from gtts import gTTS
 from speech_recognition import AudioFile, Recognizer, UnknownValueError
 
-from .forms import AccountForm
-from .models import Person
+from .forms import AccountForm, UploadAudioFileForm
+from .models import Person, AudioRecord
 
 import os
 
@@ -93,8 +93,22 @@ def index(request):
 
 def mockform(request):
     if request.method == 'POST':
-        audio_file = request.FILES['audioFile']
-        audioField = request.GET.get('audioField', '') # name | city | district | phone
+        name_audio_file = request.FILES.get('name_audio')
+        name_audio_content = name_audio_file.read()
+
+        # form = UploadAudioFileForm(request.POST, request.FILES)
+        # file_instance:AudioRecord
+        # if form.is_valid():
+        #     title = form.cleaned_data['label']
+        file_instance = AudioRecord(label=request.POST['label'], audio_file=request.FILES['name_audio'])
+        file_instance.save()
+        # else:
+        #     print("ERR")
+        path = file_instance.audio_file.path
+        print("APTH::", path)
+        # print(type(request.POST['name_audio']))
+        # audio_file = request.FILES['audioFile']
+        # audioField = request.GET.get('audioField', '') # name | city | district | phone
         preValues = {
             'name': request.POST.get('name', ''),
             'city': request.POST.get('city', ''),
@@ -111,13 +125,15 @@ def mockform(request):
 
         try:
             # Load the audio file
-            with sr.AudioFile(audio_file) as source:
+            with sr.AudioFile(file_instance.audio_file) as source:
                 audio = recognizer.record(source)
 
             # Extract text from audio
-            text = recognizer.recognize_google(audio)
+            text = recognizer.recognize_google(audio, language='gu-IN')
 
-            preValues[audioField] = text
+            print("Extracted::", text)
+
+            preValues['name'] = text # currentField
 
             return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False})
 
