@@ -6,23 +6,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voice Form</title>
     <style>
-        
+      *{
+        padding: 0;
+        margin: 0;
+      }  
+      body{
+        padding: 2rem;
+      }
     </style>
 </head>
 <body>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
+        <input hidden type="text" name="currentField" value="{{ targetField }}" id="currentField">
+        <input hidden type="text" name="direction" value="next" id="direction">
         <div class="parent">
-            <input type="text" name="label" value="name" id="label">
+            <input type="text" name="label-name" value="{% if name != False %}{{ name }}{% endif %}" id="name">
+            <b>Your Name</b>
+            {% if name_error %}
+            <b style="color: red">Error parsing text, Could you please try again</b>
+            {% endif %}
             <input accept="audio/wav" type="file" hidden name="name_audio" id="name_audio">
-            <a id="record_name">Hold to Record</a>
+            <a style="background-color: aquamarine; padding: 1rem 1.5rem;border-radius: 10px;" id="record_name">Hold to Record</a>
             <br/>
-            <button>Previous</button>
-            <button>Next</button>
+            <button onclick="prevButton()">Previous</button>
+            <button onclick="nextButton()">Next</button>
         </div>
+
+        <div class="parent">
+            <input type="text" name="label-district" value="{{ district }}" id="district">
+            <b>Your District</b>
+            {% if district_error %}
+            <b style="color: red">Error parsing text, Could you please try again</b>
+            {% endif %}
+            <input accept="audio/wav" type="file" hidden name="district_audio" id="district_audio">
+            <a style="background-color: aquamarine; padding: 1rem 1.5rem;border-radius: 10px;" id="record_name">Hold to Record</a>
+            <br/>
+            <button onclick="prevButton()">Previous</button>
+            <button onclick="nextButton()">Next</button>
+        </div>
+
+      <div class="parent">
+          <input type="text" name="label-city" value="{{ city }}" id="city">
+          <b>Your City</b>
+          {% if city_error %}
+          <b style="color: red">Error parsing text, Could you please try again</b>
+          {% endif %}
+          <input accept="audio/wav" type="file" hidden name="city_audio" id="city_audio">
+          <a style="background-color: aquamarine; padding: 1rem 1.5rem;border-radius: 10px;" id="record_name">Hold to Record</a>
+          <br/>
+          <button onclick="prevButton()">Previous</button>
+          <button onclick="nextButton()">Next</button>
+      </div>
+
+    <div class="parent">
+        <input type="text" name="label-phone" value="{{ phone }}" id="phone">
+        <b>Your Phone</b>
+        {% if phone_error %}
+        <b style="color: red">Error parsing text, Could you please try again</b>
+        {% endif %}
+        <input accept="audio/wav" type="file" hidden name="phone_audio" id="phone_audio">
+        <a style="background-color: aquamarine; padding: 1rem 1.5rem;border-radius: 10px;" id="record_name">Hold to Record</a>
+        <br/>
+        <button onclick="prevButton()">Previous</button>
+        <button onclick="nextButton()">Next</button>
+    </div>
     </form>
     <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
     <script>
+      document.getElementById('name').value = "{{ name }}"
+      function nextButton() {
+
+        document.getElementById('direction').value = 'next';
+
+        return true;
+
+      }
+
+      function prevButton() {
+
+        document.getElementById('direction').value = 'prev';
+
+        return true;
+
+      }
+
+      let currentField = "{{ targetField }}"
+      let ds = document.getElementsByClassName('parent')
+      console.log("ASD", ds, currentField);
+      for(let i = 0; i < ds.length; i++){
+        if(ds[i].children[0].id !== currentField){
+        console.log("ASDee", ds);
+
+          ds[i].style.display = "none";
+        }
+      }
+
         let record_button = document.getElementById('record_name');
         let name_audio_input = document.getElementById('name_audio');
         var recorder;

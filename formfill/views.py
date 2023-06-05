@@ -94,13 +94,30 @@ def index(request):
 def mockform(request):
     if request.method == 'POST':
         name_audio_file = request.FILES.get('name_audio')
-        name_audio_content = name_audio_file.read()
+        preValues = {
+            'name': request.POST.get('label-name', ''),
+            'city': request.POST.get('label-city', ''),
+            'district': request.POST.get('label-district', ''),
+            'phone': request.POST.get('label-phone', ''),
+        }
+        labels = ['name', 'district', 'city', 'phone', 'submit']
+        nextIndex = labels.index(request.POST['currentField']) + 1
+        prevIndex = max(labels.index(request.POST['currentField']) - 1, 0)
+
+        direction = request.POST['direction'] # prev | next
+
+        if(not name_audio_file):
+            # Mock Navigation with context data currentField
+            if(direction == 'next'):
+                return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False, 'targetField': labels[nextIndex]})
+            else:
+                return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False, 'targetField': labels[prevIndex]})
 
         # form = UploadAudioFileForm(request.POST, request.FILES)
         # file_instance:AudioRecord
         # if form.is_valid():
         #     title = form.cleaned_data['label']
-        file_instance = AudioRecord(label=request.POST['label'], audio_file=request.FILES['name_audio'])
+        file_instance = AudioRecord(label=request.POST['currentField'], audio_file=request.FILES[f"{request.POST['currentField']}_audio"])
         file_instance.save()
         # else:
         #     print("ERR")
@@ -109,12 +126,6 @@ def mockform(request):
         # print(type(request.POST['name_audio']))
         # audio_file = request.FILES['audioFile']
         # audioField = request.GET.get('audioField', '') # name | city | district | phone
-        preValues = {
-            'name': request.POST.get('name', ''),
-            'city': request.POST.get('city', ''),
-            'district': request.POST.get('district', ''),
-            'phone': request.POST.get('phone', ''),
-        }
         # preName = request.GET.get('name', '')
         # preCity = request.GET.get('city', '')
         # preDistrict = request.GET.get('district', '') 
@@ -130,24 +141,25 @@ def mockform(request):
 
             # Extract text from audio
             text = recognizer.recognize_google(audio, language='gu-IN')
-
             print("Extracted::", text)
 
-            preValues['name'] = text # currentField
-
-            return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False})
+            preValues[request.POST['currentField']] = text # currentField
+            if(direction == 'next'):
+                return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False, 'targetField': labels[nextIndex]})
+            else:
+                return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False, 'targetField': labels[prevIndex]})
 
         except Exception as e:
-            preValues[audioField] = False
+            preValues[request.POST['currentField']] = False
             # Error parsing text
-            return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False})
+            return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False, 'targetField': request.POST['currentField']})
 
     else:
         return render(request, 'mockform.html', context={'name': '',
             'city': '',
             'district': '',
             'phone': '',
-        'name_error': True,'city_error': False,'district_error': False,'phone_error': False
+        'name_error': False,'city_error': False,'district_error': False,'phone_error': False, 'targetField': 'name'
         })
 
 
