@@ -27,7 +27,7 @@
             <b style="color: red">Error parsing text, Could you please try again</b>
             {% endif %}
             <input accept="audio/wav" type="file" hidden name="name_audio" id="name_audio">
-            <a style="background-color: aquamarine; padding: 1rem 1.5rem;border-radius: 10px;" id="record_name">Hold to Record</a>
+            <a style="background-color: aquamarine; padding: 1rem 1.5rem;border-radius: 10px;" class="record_button">Hold to Record</a>
             <br/>
             <button onclick="prevButton()">Previous</button>
             <button onclick="nextButton()">Next</button>
@@ -40,7 +40,7 @@
             <b style="color: red">Error parsing text, Could you please try again</b>
             {% endif %}
             <input accept="audio/wav" type="file" hidden name="district_audio" id="district_audio">
-            <a style="background-color: aquamarine; padding: 1rem 1.5rem;border-radius: 10px;" id="record_name">Hold to Record</a>
+            <a style="background-color: aquamarine; padding: 1rem 1.5rem;border-radius: 10px;" class="record_button">Hold to Record</a>
             <br/>
             <button onclick="prevButton()">Previous</button>
             <button onclick="nextButton()">Next</button>
@@ -53,7 +53,7 @@
           <b style="color: red">Error parsing text, Could you please try again</b>
           {% endif %}
           <input accept="audio/wav" type="file" hidden name="city_audio" id="city_audio">
-          <a style="background-color: aquamarine; padding: 1rem 1.5rem;border-radius: 10px;" id="record_name">Hold to Record</a>
+          <a style="background-color: aquamarine; padding: 1rem 1.5rem;border-radius: 10px;" class="record_button">Hold to Record</a>
           <br/>
           <button onclick="prevButton()">Previous</button>
           <button onclick="nextButton()">Next</button>
@@ -66,7 +66,7 @@
         <b style="color: red">Error parsing text, Could you please try again</b>
         {% endif %}
         <input accept="audio/wav" type="file" hidden name="phone_audio" id="phone_audio">
-        <a style="background-color: aquamarine; padding: 1rem 1.5rem;border-radius: 10px;" id="record_name">Hold to Record</a>
+        <a style="background-color: aquamarine; padding: 1rem 1.5rem;border-radius: 10px;" class="record_button">Hold to Record</a>
         <br/>
         <button onclick="prevButton()">Previous</button>
         <button onclick="nextButton()">Next</button>
@@ -102,21 +102,26 @@
         }
       }
 
-        let record_button = document.getElementById('record_name');
+        // let record_button = document.getElementById('record_name');
+        let record_buttons = document.getElementsByClassName('record_button')
         let name_audio_input = document.getElementById('name_audio');
         var recorder;
         // let recorder = Recorder();
-        record_button.addEventListener('mousedown', (e) => {
+        for(let i = 0; i < record_buttons.length; i++){
+
+          record_buttons[i].addEventListener('mousedown', (e) => {
             startRecording();
 
 
         })
-        record_button.addEventListener('mouseup', (e) => {
+        record_buttons[i].addEventListener('mouseup', (e) => {
 
             stopRecording();
             e.preventDefault();
             return false
         })
+
+        }
 
         function startRecording() {
 
