@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="shortcut icon" href="./components/assets/favicon.ico" type="image/x-icon">
+    <title>SvarLipi | Instructions </title>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="logo">
+            <a href="#">
+                SVARLIPI
+            </a>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </nav>
+        <style>
+            /* Imports are import-ant */
+
+@import url('https://fonts.googleapis.com/css2?family=Koulen&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,800;1,900&display=swap');
+
+/* CSS Code below */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: #C1C1C1;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-top: 10px;
+    margin-left: 5%;
+    margin-right: 5%;
+    border-radius: 25px;
+    background-color: #000000;
+    -webkit-box-shadow: 15px 10px 4px 0px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 15px 10px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 15px 10px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+    text-decoration: none !important;
+    /* text-transform: none; */
+    color: inherit;
+}
+
+.logo {
+    margin-left: 20px;
+    font-size: 48px;
+    height: auto;
+    font-family: 'Koulen', cursive;
+    color: #FFFAFA;
+}
+
+.menu {
+    margin-right: 20px;
+}
+
+.menu ul {
+    list-style: none;
+    display: flex;
+}
+
+.menu ul li {
+    margin-right: 20px;
+}
+
+.menu ul li:last-child {
+    margin-right: 0;
+}
+
+.menu ul li a {
+    font-family: 'Koulen', cursive;
+    text-decoration: none;
+    color: #FFFAFA;
+    font-size: 26px;
+    /* font-weight: bold; */
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+/* Hero-section */
+
+.hero {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    max-width: 700px;
+}
+
+.hero-content {
+    width: 100%;
+    /* max-width: 600px; */
+}
+
+.hero-title {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.hero-instructions {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.instructions-list {
+    text-align: left;
+    padding-left: 20px;
+}
+
+.instructions-list li {
+    margin-bottom: 10px;
+}
+
+.bottom-container {
+    display: flex;
+    justify-content: space-evenly
+}
+
+.bottom-container .terms-checkbox {
+    margin-top: 20px;
+    font-size: small;
+}
+
+.bottom-container .submitButton {
+    margin-left: 25rem;
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.hero-button {
+    padding: 10px 20px;
+    border-radius: 15px;
+    background-color: #000000;
+    color: #FFFAFA;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.footer {
+    padding: 20px;
+    background-color: #000000;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.footer-content p {
+    margin: 0;
+}
+
+.footer-content p:before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: #000000;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+
+/* CSS For popup */
+
+.popup {
+    position: absolute;
+    width: 400px;
+    background: black;
+    color: white;
+    border-radius: 2px;
+    top: 0;
+    left: 40%;
+    padding: 10px;
+    transform: translate(-50%, -50%) scale(.1);
+    transition: transform 0.4s, top 0.4s;
+    visibility: hidden;
+}
+
+.open-popup {
+    visibility: visible;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.btn1 {
+    border-radius: 12px;
+    background-color: #B8B8B8;
+    float: right;
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 1%;
+    /* margin-left: 30%; */
+    margin-top: 10px;
+    min-height: 50px;
+    min-width: 150px;
+}
+
+.btn2 {
+    border-radius: 12px;
+    background-color: #B8B8B8;
+    float: right;
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 1%;
+    /* margin-left: 30%; */
+    margin-top: 10px;
+    min-height: 50px;
+    min-width: 150px;
+}
+
+.bottom-container1 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.modal .top {
+    display: flex;
+    padding: 5px;
+    justify-content: space-between;
+    padding-bottom: calc(8px + 1.5625vw);
+}
+
+.modal h3 {
+    padding-bottom: 10px;
+    padding-top: .2em;
+    font-size: 28px;
+}
+
+.popup button {
+    background: #FFFAFA;
+    color: black;
+    border-radius: 2px;
+}
+
+
+/* Styles for the modal */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: #0b0b0b;
+    color: #FFFAFA;
+    margin: 15% auto;
+    padding: 20px;
+    /* border: 1px solsid #888; */
+    width: 30%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+/* Styles for the modal background */
+
+.modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+}
+
+
+/* Styles for the body when modal is open */
+
+.modal-open {
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+
+/* Responsive styles, or you can say I tried */
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .logo {
+        margin-bottom: 10px;
+    }
+    .menu-items {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+        background-color: #f5f5f5;
+    }
+    .menu-items.open {
+        display: flex;
+    }
+    .menu-items li {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    .menu-toggle {
+        display: block;
+    }
+    .logo {
+        font-size: 32px;
+    }
+    .footer {
+        padding: 10px;
+    }
+    .logo {
+        font-size: 32px;
+    }
+    .menu ul li a {
+        font-size: 20px;
+    }
+    .footer-content {
+        /* justify-content: center; */
+        text-align: center;
+        /* margin-right: 10px; */
+    }
+    .footer {
+        position: sticky;
+        /* z-index: 100; */
+        bottom: 0;
+    }
+    .hero {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+        </style>
+    </header>
+    <!-- End of Iron lobby | Header -->
+
+    <!-- Main Section | Silver 1, heh! -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">❖ મહત્વપૂર્ણ સૂચનાઓ:</h1>
+            <p class="hero-instructions">Follow these instructions to get started:</p>
+            <ol class="instructions-list">
+                <li>બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લાબ્લા બ્લા બ્લા બ્લા બ્લા બ્લા</li>
+                <li>બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લાબ્લા બ્લા બ્લા બ્લા બ્લા બ્લા</li>
+                <li>બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લાબ્લા બ્લા બ્લા બ્લા બ્લા બ્લા</li>
+                <li>બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લાબ્લા બ્લા બ્લા બ્લા બ્લા બ્લા</li>
+                <li>બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લા બ્લાબ્લા બ્લા બ્લા બ્લા બ્લા બ્લા</li>
+            </ol>
+            <div class="bottom-container" onload="disableSubmit()">
+
+                <div class="terms-checkbox">
+                    <input type="checkbox" name="terms" id="terms" onchange="activateButton(this)"> I Agree Terms & Coditions
+                </div>
+                <div class="submitButton">
+                    <a class="hero-button" id="hero-button" style="color: white" onclick="checkAgreementForTerms()" disabled>આગળ</a>
+                </div>
+            </div>
+
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <div class="top">
+                        <h3>માઇક્રોફોનને વપરવાની મંજૂરી આપો</h3>
+                        <!-- <b href="#" class="close"><i class="fa-solid fa-xmark fa-1.2x" style="color: #ffffff;"></i></b> -->
+                    </div>
+                    <div class="bottom-container1">
+                        <b>Quick Guide</b>
+                        <small>1. Go to your browser settings, enable microphone permission for this website domain!</small>
+                        <small>2. Refresh this page.</small>
+        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+    <!-- End of Main Section | Silver 1, heh! -->
+    <!-- You SOAB, stop teasing -->
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="copyright">
+                &copy; 2023 HYPERVECT. All rights reserved.
+            </p>
+        </div>
+    </footer>
+    <!-- End of Footer Section -->
+
+    <!-- Lipi Section -->
+    <script src="./src/js/script.js"></script>
+    <script src="https://kit.fontawesome.com/496ee33d49.js" crossorigin="anonymous"></script>
+    <!-- End of Lipi Section -->
+    <script>
+
+document.addEventListener("DOMContentLoaded", function() {
+  var modal = document.getElementsByClassName("modal")[0];
+
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(function(stream) {
+        modal.style.display = "none";
+      })
+      .catch(function(error) {
+        modal.style.display = "block";
+        modal.style.backdropFilter = 'blur(10px)'
+      });
+  }
+});
+    function checkAgreementForTerms() {
+
+        let tncCheckbox = document.getElementById('terms')
+
+        if(!tncCheckbox.checked){
+            alert("Please agree Terms and conditions!")
+            return;
+        }
+
+        window.location.href = '/mockform'
+
+    }
+    </script>
+</body>
+
+</html>
+
+<!-- Joke for the comment readers: -->
+<!-- What did the HTML coding dog say?
+Href Href! -->

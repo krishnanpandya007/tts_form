@@ -19,7 +19,7 @@ from django.conf import settings
 
 urlpatterns = [
     # Other URL patterns for your project
-    path('formfill/', include('formfill.urls')),
+    path('', include('formfill.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -12,6 +12,9 @@ from .models import Person, AudioRecord
 
 import os
 
+def home(request):
+    return render(request, 'home.html')
+
 def index(request):
     audio_dir = '/home/aluminium/Documents/tts_final/tts_form/audio'
 
