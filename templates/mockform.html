@@ -4,77 +4,190 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,100;1,200;1,300;1,500;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <title>Voice Form</title>
     <style>
       *{
         padding: 0;
         margin: 0;
+        font-family: 'Montserrat', sans-serif;
       }  
       body{
         padding: 2rem;
       }
+      @-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+  }
+  70% {
+      -webkit-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+      -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+}
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+    box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+  }
+  70% {
+      -moz-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+      box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+      -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+      box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+}
+.indicator_container{
+    display: flex;
+    margin-bottom: 4rem;
+    width: 80%;
+    align-items: center;
+}
+
+.contact__indicator{
+    border: 2px solid #000000;
+    width: 30px;
+    /* text-align: center; */
+    display: flex;
+    justify-content: center;
+    font-family: 'Poppins';
+    font-size: 0.8rem;
+    position: relative;
+    align-items: center;
+    height: 30px;
+    border-radius: 10px;
+    padding: none;
+    transition: 0.2s ease;
+}
+
+.contact__indicator:hover{
+    cursor: pointer;
+    background-color: #000000;
+    color: white;
+}
+
+.contact__connector{
+    flex: 1;
+    position: relative;
+    border: 1px solid #c4c4c450;
+}
+
+.contact__indicator b{
+    text-align: center;
+    color: black !important;
+    top: 120%;
+    font-size: 0.7rem;
+    position: absolute;
+
+}
     </style>
 </head>
 <body>
-    <form method="POST" enctype="multipart/form-data">
+  <div style="display: flex;background-color: black;border-radius: 8px;padding: 1.5rem;margin: 0;align-items: center;justify-content: space-between;">
+    <b style="font-size: 1.5rem;color: white;">LOGO</b>
+    <div style="display: flex;gap: 1rem;">
+      <a style="font-size: 1rem;font-weight: 500;color: white;">Contact Us</a>
+      <a style="font-size: 1rem;font-weight: 500;color: white;">About Us</a>
+
+    </div>
+  </div>
+  <div style="display: flex; justifyContent: center;margin-top: 10rem;width: 100%;">
+
+    <div class="indicator_container" style="margin-left: 50%;transform:translateX(-55%);width: 300px;">
+      <div class="contact__indicator" style="{% if name_error %}border: 2px solid red;border-radius: 8px; {% elif name|length > 0 %} border-radius:100px;border: 3px solid lime;{% else %}border-radius:8px;border: 1px solid black; {% endif %};background-color: {% if targetField == 'name' %} black {% else %} white {% endif %};color: {% if targetField == 'name' %} white {% else %} black {% endif %};">1<b style="font-weight: 300;">Name</b></div>
+      <div class="contact__connector">
+        <span class="connector_line"></span>
+      </div>
+      <div class="contact__indicator" style="{% if district_error %}border: 2px solid red;border-radius: 8px; {% elif district|length > 0 %} border-radius:100px;border: 3px solid lime;{% else %}border-radius:8px;border: 1px solid black; {% endif %};background-color: {% if targetField == 'district' %} black {% else %} white {% endif %};color: {% if targetField == 'district' %} white {% else %} black {% endif %};">2<b style="font-weight: 300;">District</b></div>
+      <div class="contact__connector">
+        <span class="connector_line"></span>
+      </div>
+      <div class="contact__indicator" style="{% if city_error %}border: 2px solid red;border-radius: 8px; {% elif city|length > 0 %} border-radius:100px;border: 3px solid lime;{% else %}border-radius:8px;border: 1px solid black; {% endif %};background-color: {% if targetField == 'city' %} black {% else %} white {% endif %};color: {% if targetField == 'city' %} white {% else %} black {% endif %};">3<b style="font-weight: 300;">City</b></div>
+      <div class="contact__connector">
+        <span class="connector_line"></span>
+      </div>
+      <div class="contact__indicator" style="{% if phone_error %}border: 2px solid red;border-radius: 8px; {% elif phone|length > 0 %} border-radius:100px;border: 3px solid lime;{% else %}border-radius:8px;border: 1px solid black; {% endif %};background-color: {% if targetField == 'phone' %} black {% else %} white {% endif %};color: {% if targetField == 'phone' %} white {% else %} black {% endif %};">4<b style="font-weight: 300;">Phone</b></div>
+      <div class="contact__connector">
+        <span class="connector_line"></span>
+      </div>
+      <div class="contact__indicator" style="border: {% if submit_error %} 2px solid red {% else %} 1px solid black {% endif %};background-color: {% if targetField == 'submit' %} black {% else %} white {% endif %};color: {% if targetField == 'submit' %} white {% else %} black {% endif %}">5<b style="font-weight: 300;">Submit</b></div>
+
+
+    </div>
+  </div>
+  <div style="display: flex;align-items: center;justify-content: center;width: 100%;height: 1000%;">
+
+    <form method="POST" enctype="multipart/form-data" >
         {% csrf_token %}
         <input hidden type="text" name="currentField" value="{{ targetField }}" id="currentField">
         <input hidden type="text" name="direction" value="next" id="direction">
-        <div class="parent">
-            <input type="text" name="label-name" value="{% if name != False %}{{ name }}{% endif %}" id="name">
-            <b>Your Name</b>
+        <input hidden type="text" name="currErrors" value="{{ name_error }},{{ district_error }},{{ city_error }},{{ phone_error }}" id="currErrors">
+        <div class="parent" style="position: relative;">
+            <p>Your Name</p>
+            <input placeholder="Hold mic. to speak" style="padding: 0.7rem 1rem;margin: 1rem 0.5rem 1rem 0;width: 250px;background-color: #00000010;border: none;outline: none;border-radius: 10px;font-weight: bold;" type="text" name="label-name" value="{% if not name_error %}{{ name }}{% endif %}" id="name">
             {% if name_error %}
-            <b style="color: red">Error parsing text, Could you please try again</b>
+            <b style="color: red;position: absolute;bottom: -80px;width: 100%;left: 0;">Error parsing text, Could you please try again</b>
             {% endif %}
             <input accept="audio/wav" type="file" hidden name="name_audio" id="name_audio">
-            <a style="background-color: aquamarine; padding: 1rem 1.5rem;border-radius: 10px;" class="record_button">Hold to Record</a>
+            <!-- <a style="background-color: aquamarine; padding: 1rem 1.5rem;border-radius: 10px;" class="record_button">Hold to Record</a> -->
+            <svg style="transform: translateY(15px);cursor:pointer; box-shadow: 0 0 0 rgba(204,169,44, 0.4);width: 20px;height: 20px;padding: 8px; border: 2px solid #00000015;border-radius: 8px"  class="record_button" xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" ><path d="M480-436.847q-37.006 0-61.502-26.077-24.497-26.076-24.497-63.768v-247.923q0-35.512 24.938-60.448 24.937-24.936 61.002-24.936t61.061 24.936q24.997 24.936 24.997 60.448v247.923q0 37.692-24.497 63.768-24.496 26.077-61.502 26.077Zm0-211.076Zm-22.692 517.922v-141.385q-100.23-9.077-168.768-82.076-68.539-73-68.539-173.23h45.384q0 89.077 62.698 150.115 62.698 61.038 151.653 61.038 88.956 0 151.918-61.038 62.961-61.038 62.961-150.115h45.384q0 100.23-68.539 173.23-68.538 72.999-168.768 82.076v141.385h-45.384ZM480-482.231q17.615 0 29.115-12.923t11.5-31.694v-247.767q0-17-11.677-28.5-11.676-11.5-28.938-11.5t-28.938 11.5q-11.677 11.5-11.677 28.5v247.767q0 18.771 11.5 31.694 11.5 12.923 29.115 12.923Z"/></svg>
+
             <br/>
-            <button onclick="prevButton()">Previous</button>
-            <button onclick="nextButton()">Next</button>
+            <button onclick="prevButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">Previous</button>
+            <button onclick="nextButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">Next</button>
         </div>
 
-        <div class="parent">
-            <input type="text" name="label-district" value="{{ district }}" id="district">
-            <b>Your District</b>
+        <div class="parent"  style="position: relative;">
+            <p>Your District</p>
+            <input placeholder="Hold mic. to speak" style="padding: 0.7rem 1rem;margin: 1rem 0.5rem 1rem 0;width: 250px;background-color: #00000010;border: none;outline: none;border-radius: 10px;font-weight: bold;" type="text" name="label-district" value="{% if not district_error %}{{ district }}{% endif %}" id="district">
             {% if district_error %}
-            <b style="color: red">Error parsing text, Could you please try again</b>
+            <b style="color: red;position: absolute;bottom: -80px;width: 100%;left: 0;">Error parsing text, Could you please try again</b>
             {% endif %}
             <input accept="audio/wav" type="file" hidden name="district_audio" id="district_audio">
-            <a style="background-color: aquamarine; padding: 1rem 1.5rem;border-radius: 10px;" class="record_button">Hold to Record</a>
+            <svg style="transform: translateY(15px);cursor:pointer; box-shadow: 0 0 0 rgba(204,169,44, 0.4);width: 20px;height: 20px;padding: 8px; border: 2px solid #00000015;border-radius: 8px"  class="record_button" xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" ><path d="M480-436.847q-37.006 0-61.502-26.077-24.497-26.076-24.497-63.768v-247.923q0-35.512 24.938-60.448 24.937-24.936 61.002-24.936t61.061 24.936q24.997 24.936 24.997 60.448v247.923q0 37.692-24.497 63.768-24.496 26.077-61.502 26.077Zm0-211.076Zm-22.692 517.922v-141.385q-100.23-9.077-168.768-82.076-68.539-73-68.539-173.23h45.384q0 89.077 62.698 150.115 62.698 61.038 151.653 61.038 88.956 0 151.918-61.038 62.961-61.038 62.961-150.115h45.384q0 100.23-68.539 173.23-68.538 72.999-168.768 82.076v141.385h-45.384ZM480-482.231q17.615 0 29.115-12.923t11.5-31.694v-247.767q0-17-11.677-28.5-11.676-11.5-28.938-11.5t-28.938 11.5q-11.677 11.5-11.677 28.5v247.767q0 18.771 11.5 31.694 11.5 12.923 29.115 12.923Z"/></svg>
             <br/>
-            <button onclick="prevButton()">Previous</button>
-            <button onclick="nextButton()">Next</button>
+            <button onclick="prevButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">Previous</button>
+            <button onclick="nextButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">Next</button>
         </div>
 
-      <div class="parent">
-          <input type="text" name="label-city" value="{{ city }}" id="city">
-          <b>Your City</b>
+      <div class="parent" style="position: relative;">
+          <p>Your City</p>
+          <input placeholder="Hold mic. to speak" style="padding: 0.7rem 1rem;margin: 1rem 0.5rem 1rem 0;width: 250px;background-color: #00000010;border: none;outline: none;border-radius: 10px;font-weight: bold;" type="text" name="label-city" value="{% if not city_error %}{{ city }}{% endif %}" id="city">
           {% if city_error %}
-          <b style="color: red">Error parsing text, Could you please try again</b>
+          <b style="color: red;position: absolute;bottom: -80px;width: 100%;left: 0;">Error parsing text, Could you please try again</b>
           {% endif %}
           <input accept="audio/wav" type="file" hidden name="city_audio" id="city_audio">
-          <a style="background-color: aquamarine; padding: 1rem 1.5rem;border-radius: 10px;" class="record_button">Hold to Record</a>
+          <svg style="transform: translateY(15px);cursor:pointer; box-shadow: 0 0 0 rgba(204,169,44, 0.4);width: 20px;height: 20px;padding: 8px; border: 2px solid #00000015;border-radius: 8px"  class="record_button" xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" ><path d="M480-436.847q-37.006 0-61.502-26.077-24.497-26.076-24.497-63.768v-247.923q0-35.512 24.938-60.448 24.937-24.936 61.002-24.936t61.061 24.936q24.997 24.936 24.997 60.448v247.923q0 37.692-24.497 63.768-24.496 26.077-61.502 26.077Zm0-211.076Zm-22.692 517.922v-141.385q-100.23-9.077-168.768-82.076-68.539-73-68.539-173.23h45.384q0 89.077 62.698 150.115 62.698 61.038 151.653 61.038 88.956 0 151.918-61.038 62.961-61.038 62.961-150.115h45.384q0 100.23-68.539 173.23-68.538 72.999-168.768 82.076v141.385h-45.384ZM480-482.231q17.615 0 29.115-12.923t11.5-31.694v-247.767q0-17-11.677-28.5-11.676-11.5-28.938-11.5t-28.938 11.5q-11.677 11.5-11.677 28.5v247.767q0 18.771 11.5 31.694 11.5 12.923 29.115 12.923Z"/></svg>
           <br/>
-          <button onclick="prevButton()">Previous</button>
-          <button onclick="nextButton()">Next</button>
+          <button onclick="prevButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">Previous</button>
+          <button onclick="nextButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">Next</button>
       </div>
 
-    <div class="parent">
-        <input type="text" name="label-phone" value="{{ phone }}" id="phone">
-        <b>Your Phone</b>
+    <div class="parent" style="position: relative;">
+        <p>Your Phone</p>
+        <input placeholder="Hold mic. to speak" style="padding: 0.7rem 1rem;margin: 1rem 0.5rem 1rem 0;width: 250px;background-color: #00000010;border: none;outline: none;border-radius: 10px;font-weight: bold;" type="text" name="label-phone" value="{% if not phone_error %}{{ phone }}{% endif %}" id="phone">
         {% if phone_error %}
-        <b style="color: red">Error parsing text, Could you please try again</b>
+        <b style="color: red;position: absolute;bottom: -80px;width: 100%;left: 0;">Error parsing text, Could you please try again</b>
         {% endif %}
         <input accept="audio/wav" type="file" hidden name="phone_audio" id="phone_audio">
-        <a style="background-color: aquamarine; padding: 1rem 1.5rem;border-radius: 10px;" class="record_button">Hold to Record</a>
+        <svg style="transform: translateY(15px);cursor:pointer; box-shadow: 0 0 0 rgba(204,169,44, 0.4);width: 20px;height: 20px;padding: 8px; border: 2px solid #00000015;border-radius: 8px"  class="record_button" xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" ><path d="M480-436.847q-37.006 0-61.502-26.077-24.497-26.076-24.497-63.768v-247.923q0-35.512 24.938-60.448 24.937-24.936 61.002-24.936t61.061 24.936q24.997 24.936 24.997 60.448v247.923q0 37.692-24.497 63.768-24.496 26.077-61.502 26.077Zm0-211.076Zm-22.692 517.922v-141.385q-100.23-9.077-168.768-82.076-68.539-73-68.539-173.23h45.384q0 89.077 62.698 150.115 62.698 61.038 151.653 61.038 88.956 0 151.918-61.038 62.961-61.038 62.961-150.115h45.384q0 100.23-68.539 173.23-68.538 72.999-168.768 82.076v141.385h-45.384ZM480-482.231q17.615 0 29.115-12.923t11.5-31.694v-247.767q0-17-11.677-28.5-11.676-11.5-28.938-11.5t-28.938 11.5q-11.677 11.5-11.677 28.5v247.767q0 18.771 11.5 31.694 11.5 12.923 29.115 12.923Z"/></svg>
         <br/>
-        <button onclick="prevButton()">Previous</button>
-        <button onclick="nextButton()">Next</button>
+        <button onclick="prevButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">Previous</button>
+        <button onclick="nextButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">Next</button>
     </div>
     </form>
+  </div>
     <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
     <script>
-      document.getElementById('name').value = "{{ name }}"
+      // document.getElementById('name').value = "{{ name }}"
+      // document.getElementById('district').value = "{{ district }}"
+      // document.getElementById('city').value = "{{ city }}"
+      // document.getElementById('phone').value = "{{ phone }}"
       function nextButton() {
 
         document.getElementById('direction').value = 'next';
@@ -95,7 +208,7 @@
       let ds = document.getElementsByClassName('parent')
       console.log("ASD", ds, currentField);
       for(let i = 0; i < ds.length; i++){
-        if(ds[i].children[0].id !== currentField){
+        if(ds[i].children[1].id !== currentField){
         console.log("ASDee", ds);
 
           ds[i].style.display = "none";
@@ -104,20 +217,24 @@
 
         // let record_button = document.getElementById('record_name');
         let record_buttons = document.getElementsByClassName('record_button')
-        let name_audio_input = document.getElementById('name_audio');
+        let name_audio_input = document.getElementById('{{ targetField }}_audio');
         var recorder;
         // let recorder = Recorder();
         for(let i = 0; i < record_buttons.length; i++){
 
-          record_buttons[i].addEventListener('mousedown', (e) => {
+          record_buttons[i].addEventListener('mousedown', () => {
             startRecording();
-
+            record_buttons[i].style.animation = 'pulse 2s infinite';
+            record_buttons[i].style.border = 'pulse 2s infinite';
 
         })
         record_buttons[i].addEventListener('mouseup', (e) => {
 
             stopRecording();
             e.preventDefault();
+            record_buttons[i].style.animation = 'none';
+
+
             return false
         })
 

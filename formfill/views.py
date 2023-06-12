@@ -14,6 +14,8 @@ import os
 
 def home(request):
     return render(request, 'home.html')
+def home2(request):
+    return render(request, 'home2.html')
 
 def index(request):
     audio_dir = '/home/aluminium/Documents/tts_final/tts_form/audio'
@@ -96,16 +98,18 @@ def index(request):
 
 def mockform(request):
     if request.method == 'POST':
-        name_audio_file = request.FILES.get('name_audio')
+        prevErrors = request.POST.get('currErrors', '').split(',')
         preValues = {
-            'name': request.POST.get('label-name', ''),
-            'city': request.POST.get('label-city', ''),
-            'district': request.POST.get('label-district', ''),
-            'phone': request.POST.get('label-phone', ''),
+            'name': False if prevErrors[0]=='True' else request.POST.get('label-name', ''),
+            'district': False if prevErrors[1]=='True' else request.POST.get('label-district', ''),
+            'city': False if prevErrors[2]=='True' else request.POST.get('label-city', ''),
+            'phone': False if prevErrors[3]=='True' else request.POST.get('label-phone', ''),
         }
+        print(preValues)
         labels = ['name', 'district', 'city', 'phone', 'submit']
         nextIndex = labels.index(request.POST['currentField']) + 1
         prevIndex = max(labels.index(request.POST['currentField']) - 1, 0)
+        name_audio_file = request.FILES.get(f"{request.POST['currentField']}_audio")
 
         direction = request.POST['direction'] # prev | next
 
@@ -144,6 +148,9 @@ def mockform(request):
 
             # Extract text from audio
             text = recognizer.recognize_google(audio, language='gu-IN')
+            if(request.POST['currentField'] == 'phone'):
+                # No need of spaces in phone number
+                text = text.replace(' ', '')
             print("Extracted::", text)
 
             preValues[request.POST['currentField']] = text # currentField
