@@ -5,17 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,100;1,200;1,300;1,500;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <title>Voice Form</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,100;1,200;1,300;1,500;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="favicon" href="../assets/favicon.ico" type="image/x-icon">
+    <title>SWARLIPI | Form</title>
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Koulen&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,800;1,900&display=swap');
+
       *{
         padding: 0;
         margin: 0;
-        font-family: 'Montserrat', sans-serif;
+        {% comment %} font-family: 'Montserrat', sans-serif; {% endcomment %}
       }  
       body{
-        padding: 2rem;
+        {% comment %} padding: 2rem; {% endcomment %}
       }
       @-webkit-keyframes pulse {
   0% {
@@ -85,37 +89,151 @@
     position: absolute;
 
 }
+.footer {
+  padding: 20px;
+  background-color: #000000;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.footer-content p {
+  margin: 0;
+}
+
+.footer-content p:before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #000000;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-top: 10px;
+  margin-left: 5%;
+  margin-right: 5%;
+  border-radius: 25px;
+  background-color: #000000;
+  -webkit-box-shadow: 15px 10px 4px 0px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 15px 10px 4px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 15px 10px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+  text-decoration: none !important;
+  /* text-transform: none; */
+  color: inherit;
+}
+
+.logo {
+  margin-left: 20px;
+  font-size: 48px;
+  height: auto;
+  font-family: 'Koulen', cursive;
+  color: #FFFAFA;
+}
+
+.menu {
+  margin-right: 20px;
+}
+
+.menu ul {
+  list-style: none;
+  display: flex;
+}
+
+.menu ul li {
+  margin-right: 20px;
+}
+
+.menu ul li:last-child {
+  margin-right: 0;
+}
+
+.menu ul li a {
+  font-family: 'Koulen', cursive;
+  text-decoration: none;
+  color: #FFFAFA;
+  font-size: 26px;
+  /* font-weight: bold; */
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.hero-section {
+  padding: 50px;
+}
     </style>
 </head>
 <body>
-  <div style="display: flex;background-color: black;border-radius: 8px;padding: 1.5rem;margin: 0;align-items: center;justify-content: space-between;">
-    <b style="font-size: 1.5rem;color: white;">LOGO</b>
+  {% comment %} <div style="display: flex;background-color: black;border-radius: 8px;padding: 1.5rem;margin: 0;align-items: center;justify-content: space-between;">
+    <b style="font-size: 1.5rem;color: white;">SWARLIPI</b>
     <div style="display: flex;gap: 1rem;">
       <a style="font-size: 1rem;font-weight: 500;color: white;">Contact Us</a>
       <a style="font-size: 1rem;font-weight: 500;color: white;">About Us</a>
 
     </div>
-  </div>
+  </div> {% endcomment %}
+      <!-- Header Section -->
+      <header class="header">
+        <div class="logo">
+            <a href="/">
+                SWARLIPI
+            </a>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- End of Iron lobby | Header -->
   <div style="display: flex; justifyContent: center;margin-top: 10rem;width: 100%;">
 
     <div class="indicator_container" style="margin-left: 50%;transform:translateX(-55%);width: 300px;">
-      <div class="contact__indicator" style="{% if name_error %}border: 2px solid red;border-radius: 8px; {% elif name|length > 0 %} border-radius:100px;border: 3px solid lime;{% else %}border-radius:8px;border: 1px solid black; {% endif %};background-color: {% if targetField == 'name' %} black {% else %} white {% endif %};color: {% if targetField == 'name' %} white {% else %} black {% endif %};">1<b style="font-weight: 300;">Name</b></div>
+      <div class="contact__indicator" style="{% if name_error %}border: 2px solid red;border-radius: 8px; {% elif name|length > 0 %} border-radius:100px;border: 3px solid lime;{% else %}border-radius:8px;border: 1px solid black; {% endif %};background-color: {% if targetField == 'name' %} black {% else %} white {% endif %};color: {% if targetField == 'name' %} white {% else %} black {% endif %};">1<b style="font-weight: 300;">નામ</b></div>
       <div class="contact__connector">
         <span class="connector_line"></span>
       </div>
-      <div class="contact__indicator" style="{% if district_error %}border: 2px solid red;border-radius: 8px; {% elif district|length > 0 %} border-radius:100px;border: 3px solid lime;{% else %}border-radius:8px;border: 1px solid black; {% endif %};background-color: {% if targetField == 'district' %} black {% else %} white {% endif %};color: {% if targetField == 'district' %} white {% else %} black {% endif %};">2<b style="font-weight: 300;">District</b></div>
+      <div class="contact__indicator" style="{% if district_error %}border: 2px solid red;border-radius: 8px; {% elif district|length > 0 %} border-radius:100px;border: 3px solid lime;{% else %}border-radius:8px;border: 1px solid black; {% endif %};background-color: {% if targetField == 'district' %} black {% else %} white {% endif %};color: {% if targetField == 'district' %} white {% else %} black {% endif %};">2<b style="font-weight: 300;">જિલ્લો</b></div>
       <div class="contact__connector">
         <span class="connector_line"></span>
       </div>
-      <div class="contact__indicator" style="{% if city_error %}border: 2px solid red;border-radius: 8px; {% elif city|length > 0 %} border-radius:100px;border: 3px solid lime;{% else %}border-radius:8px;border: 1px solid black; {% endif %};background-color: {% if targetField == 'city' %} black {% else %} white {% endif %};color: {% if targetField == 'city' %} white {% else %} black {% endif %};">3<b style="font-weight: 300;">City</b></div>
+      <div class="contact__indicator" style="{% if city_error %}border: 2px solid red;border-radius: 8px; {% elif city|length > 0 %} border-radius:100px;border: 3px solid lime;{% else %}border-radius:8px;border: 1px solid black; {% endif %};background-color: {% if targetField == 'city' %} black {% else %} white {% endif %};color: {% if targetField == 'city' %} white {% else %} black {% endif %};">3<b style="font-weight: 300;">શહેર</b></div>
       <div class="contact__connector">
         <span class="connector_line"></span>
       </div>
-      <div class="contact__indicator" style="{% if phone_error %}border: 2px solid red;border-radius: 8px; {% elif phone|length > 0 %} border-radius:100px;border: 3px solid lime;{% else %}border-radius:8px;border: 1px solid black; {% endif %};background-color: {% if targetField == 'phone' %} black {% else %} white {% endif %};color: {% if targetField == 'phone' %} white {% else %} black {% endif %};">4<b style="font-weight: 300;">Phone</b></div>
+      <div class="contact__indicator" style="{% if phone_error %}border: 2px solid red;border-radius: 8px; {% elif phone|length > 0 %} border-radius:100px;border: 3px solid lime;{% else %}border-radius:8px;border: 1px solid black; {% endif %};background-color: {% if targetField == 'phone' %} black {% else %} white {% endif %};color: {% if targetField == 'phone' %} white {% else %} black {% endif %};">4<b style="font-weight: 300;">ફોન નંબર</b></div>
       <div class="contact__connector">
         <span class="connector_line"></span>
       </div>
-      <div class="contact__indicator" style="border: {% if submit_error %} 2px solid red {% else %} 1px solid black {% endif %};background-color: {% if targetField == 'submit' %} black {% else %} white {% endif %};color: {% if targetField == 'submit' %} white {% else %} black {% endif %}">5<b style="font-weight: 300;">Submit</b></div>
+      <div class="contact__indicator" style="border: {% if submit_error %} 2px solid red {% else %} 1px solid black {% endif %};background-color: {% if targetField == 'submit' %} black {% else %} white {% endif %};color: {% if targetField == 'submit' %} white {% else %} black {% endif %}">5<b style="font-weight: 300;">સબમિટ</b></div>
 
 
     </div>
@@ -128,8 +246,8 @@
         <input hidden type="text" name="direction" value="next" id="direction">
         <input hidden type="text" name="currErrors" value="{{ name_error }},{{ district_error }},{{ city_error }},{{ phone_error }}" id="currErrors">
         <div class="parent" style="position: relative;">
-            <p>Your Name</p>
-            <input placeholder="Hold mic. to speak" style="padding: 0.7rem 1rem;margin: 1rem 0.5rem 1rem 0;width: 250px;background-color: #00000010;border: none;outline: none;border-radius: 10px;font-weight: bold;" type="text" name="label-name" value="{% if not name_error %}{{ name }}{% endif %}" id="name">
+            <p>તમારું નામ શું છે</p>
+            <input placeholder="માઈક પકડી રાખો. વાત કરવા માટે" style="padding: 0.7rem 1rem;margin: 1rem 0.5rem 1rem 0;width: 250px;background-color: #00000010;border: none;outline: none;border-radius: 10px;font-weight: bold;" type="text" name="label-name" value="{% if not name_error %}{{ name }}{% endif %}" id="name">
             {% if name_error %}
             <b style="color: red;position: absolute;bottom: -80px;width: 100%;left: 0;">Error parsing text, Could you please try again</b>
             {% endif %}
@@ -138,47 +256,47 @@
             <svg style="transform: translateY(15px);cursor:pointer; box-shadow: 0 0 0 rgba(204,169,44, 0.4);width: 20px;height: 20px;padding: 8px; border: 2px solid #00000015;border-radius: 8px"  class="record_button" xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" ><path d="M480-436.847q-37.006 0-61.502-26.077-24.497-26.076-24.497-63.768v-247.923q0-35.512 24.938-60.448 24.937-24.936 61.002-24.936t61.061 24.936q24.997 24.936 24.997 60.448v247.923q0 37.692-24.497 63.768-24.496 26.077-61.502 26.077Zm0-211.076Zm-22.692 517.922v-141.385q-100.23-9.077-168.768-82.076-68.539-73-68.539-173.23h45.384q0 89.077 62.698 150.115 62.698 61.038 151.653 61.038 88.956 0 151.918-61.038 62.961-61.038 62.961-150.115h45.384q0 100.23-68.539 173.23-68.538 72.999-168.768 82.076v141.385h-45.384ZM480-482.231q17.615 0 29.115-12.923t11.5-31.694v-247.767q0-17-11.677-28.5-11.676-11.5-28.938-11.5t-28.938 11.5q-11.677 11.5-11.677 28.5v247.767q0 18.771 11.5 31.694 11.5 12.923 29.115 12.923Z"/></svg>
 
             <br/>
-            <button onclick="prevButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">Previous</button>
-            <button onclick="nextButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">Next</button>
+            <button onclick="prevButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">પાછળ</button>
+            <button onclick="nextButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">આગળ</button>
         </div>
 
         <div class="parent"  style="position: relative;">
-            <p>Your District</p>
-            <input placeholder="Hold mic. to speak" style="padding: 0.7rem 1rem;margin: 1rem 0.5rem 1rem 0;width: 250px;background-color: #00000010;border: none;outline: none;border-radius: 10px;font-weight: bold;" type="text" name="label-district" value="{% if not district_error %}{{ district }}{% endif %}" id="district">
+            <p>તમારુ શહેર ક્યા તાલુકો મા આવે છે?</p>
+            <input placeholder="માઈક પકડી રાખો. વાત કરવા માટે" style="padding: 0.7rem 1rem;margin: 1rem 0.5rem 1rem 0;width: 250px;background-color: #00000010;border: none;outline: none;border-radius: 10px;font-weight: bold;" type="text" name="label-district" value="{% if not district_error %}{{ district }}{% endif %}" id="district">
             {% if district_error %}
             <b style="color: red;position: absolute;bottom: -80px;width: 100%;left: 0;">Error parsing text, Could you please try again</b>
             {% endif %}
             <input accept="audio/wav" type="file" hidden name="district_audio" id="district_audio">
             <svg style="transform: translateY(15px);cursor:pointer; box-shadow: 0 0 0 rgba(204,169,44, 0.4);width: 20px;height: 20px;padding: 8px; border: 2px solid #00000015;border-radius: 8px"  class="record_button" xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" ><path d="M480-436.847q-37.006 0-61.502-26.077-24.497-26.076-24.497-63.768v-247.923q0-35.512 24.938-60.448 24.937-24.936 61.002-24.936t61.061 24.936q24.997 24.936 24.997 60.448v247.923q0 37.692-24.497 63.768-24.496 26.077-61.502 26.077Zm0-211.076Zm-22.692 517.922v-141.385q-100.23-9.077-168.768-82.076-68.539-73-68.539-173.23h45.384q0 89.077 62.698 150.115 62.698 61.038 151.653 61.038 88.956 0 151.918-61.038 62.961-61.038 62.961-150.115h45.384q0 100.23-68.539 173.23-68.538 72.999-168.768 82.076v141.385h-45.384ZM480-482.231q17.615 0 29.115-12.923t11.5-31.694v-247.767q0-17-11.677-28.5-11.676-11.5-28.938-11.5t-28.938 11.5q-11.677 11.5-11.677 28.5v247.767q0 18.771 11.5 31.694 11.5 12.923 29.115 12.923Z"/></svg>
             <br/>
-            <button onclick="prevButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">Previous</button>
-            <button onclick="nextButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">Next</button>
+            <button onclick="prevButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">પાછળ</button>
+            <button onclick="nextButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">આગળ</button>
         </div>
 
       <div class="parent" style="position: relative;">
-          <p>Your City</p>
-          <input placeholder="Hold mic. to speak" style="padding: 0.7rem 1rem;margin: 1rem 0.5rem 1rem 0;width: 250px;background-color: #00000010;border: none;outline: none;border-radius: 10px;font-weight: bold;" type="text" name="label-city" value="{% if not city_error %}{{ city }}{% endif %}" id="city">
+          <p>તમે કયા શહેરમાં રહો છો?y</p>
+          <input placeholder="માઈક પકડી રાખો. વાત કરવા માટે" style="padding: 0.7rem 1rem;margin: 1rem 0.5rem 1rem 0;width: 250px;background-color: #00000010;border: none;outline: none;border-radius: 10px;font-weight: bold;" type="text" name="label-city" value="{% if not city_error %}{{ city }}{% endif %}" id="city">
           {% if city_error %}
           <b style="color: red;position: absolute;bottom: -80px;width: 100%;left: 0;">Error parsing text, Could you please try again</b>
           {% endif %}
           <input accept="audio/wav" type="file" hidden name="city_audio" id="city_audio">
           <svg style="transform: translateY(15px);cursor:pointer; box-shadow: 0 0 0 rgba(204,169,44, 0.4);width: 20px;height: 20px;padding: 8px; border: 2px solid #00000015;border-radius: 8px"  class="record_button" xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" ><path d="M480-436.847q-37.006 0-61.502-26.077-24.497-26.076-24.497-63.768v-247.923q0-35.512 24.938-60.448 24.937-24.936 61.002-24.936t61.061 24.936q24.997 24.936 24.997 60.448v247.923q0 37.692-24.497 63.768-24.496 26.077-61.502 26.077Zm0-211.076Zm-22.692 517.922v-141.385q-100.23-9.077-168.768-82.076-68.539-73-68.539-173.23h45.384q0 89.077 62.698 150.115 62.698 61.038 151.653 61.038 88.956 0 151.918-61.038 62.961-61.038 62.961-150.115h45.384q0 100.23-68.539 173.23-68.538 72.999-168.768 82.076v141.385h-45.384ZM480-482.231q17.615 0 29.115-12.923t11.5-31.694v-247.767q0-17-11.677-28.5-11.676-11.5-28.938-11.5t-28.938 11.5q-11.677 11.5-11.677 28.5v247.767q0 18.771 11.5 31.694 11.5 12.923 29.115 12.923Z"/></svg>
           <br/>
-          <button onclick="prevButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">Previous</button>
-          <button onclick="nextButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">Next</button>
+          <button onclick="prevButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">પાછળ</button>
+          <button onclick="nextButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">આગળ</button>
       </div>
 
     <div class="parent" style="position: relative;">
-        <p>Your Phone</p>
-        <input placeholder="Hold mic. to speak" style="padding: 0.7rem 1rem;margin: 1rem 0.5rem 1rem 0;width: 250px;background-color: #00000010;border: none;outline: none;border-radius: 10px;font-weight: bold;" type="text" name="label-phone" value="{% if not phone_error %}{{ phone }}{% endif %}" id="phone">
+        <p>મોબાઇલ નંબ</p>
+        <input placeholder="માઈક પકડી રાખો. વાત કરવા માટે" style="padding: 0.7rem 1rem;margin: 1rem 0.5rem 1rem 0;width: 250px;background-color: #00000010;border: none;outline: none;border-radius: 10px;font-weight: bold;" type="text" name="label-phone" value="{% if not phone_error %}{{ phone }}{% endif %}" id="phone">
         {% if phone_error %}
         <b style="color: red;position: absolute;bottom: -80px;width: 100%;left: 0;">Error parsing text, Could you please try again</b>
         {% endif %}
         <input accept="audio/wav" type="file" hidden name="phone_audio" id="phone_audio">
         <svg style="transform: translateY(15px);cursor:pointer; box-shadow: 0 0 0 rgba(204,169,44, 0.4);width: 20px;height: 20px;padding: 8px; border: 2px solid #00000015;border-radius: 8px"  class="record_button" xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" ><path d="M480-436.847q-37.006 0-61.502-26.077-24.497-26.076-24.497-63.768v-247.923q0-35.512 24.938-60.448 24.937-24.936 61.002-24.936t61.061 24.936q24.997 24.936 24.997 60.448v247.923q0 37.692-24.497 63.768-24.496 26.077-61.502 26.077Zm0-211.076Zm-22.692 517.922v-141.385q-100.23-9.077-168.768-82.076-68.539-73-68.539-173.23h45.384q0 89.077 62.698 150.115 62.698 61.038 151.653 61.038 88.956 0 151.918-61.038 62.961-61.038 62.961-150.115h45.384q0 100.23-68.539 173.23-68.538 72.999-168.768 82.076v141.385h-45.384ZM480-482.231q17.615 0 29.115-12.923t11.5-31.694v-247.767q0-17-11.677-28.5-11.676-11.5-28.938-11.5t-28.938 11.5q-11.677 11.5-11.677 28.5v247.767q0 18.771 11.5 31.694 11.5 12.923 29.115 12.923Z"/></svg>
         <br/>
-        <button onclick="prevButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">Previous</button>
-        <button onclick="nextButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">Next</button>
+        <button onclick="prevButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">પાછળ</button>
+        <button onclick="nextButton()" style="width: 166px;border: none;background-color: black;cursor: pointer;color: white;border-radius: 10px;padding: 0.85rem 1rem">આગળ</button>
     </div>
     <div class="parent" style="position: relative;">
       <br/>
@@ -187,22 +305,22 @@
 
           <tr>
 
-            <td><b>Name</b></td><td>  {% if name_error %}<b style="color: red;">બાકી</b>{% else %}{{ name }}{% endif %}</td> 
+            <td><b>નામ</b></td><td>  {% if name_error %}<b style="color: red;">બાકી</b>{% else %}{{ name }}{% endif %}</td> 
           </tr>
           <br/>
           <tr>
 
-            <td><b>District</b></td><td> {% if district_error %}<b style="color: red;">બાકી</b>{% else %}{{ district }}{% endif %}</td> 
+            <td><b>જિલ્લો</b></td><td> {% if district_error %}<b style="color: red;">બાકી</b>{% else %}{{ district }}{% endif %}</td> 
           </tr>
           <br/>
           <tr>
 
-            <td><b>City</b></td><td> {% if city_error %}<b style="color: red;">બાકી</b>{% else %}{{ city }}{% endif %}</td> 
+            <td><b>શહેર</b></td><td> {% if city_error %}<b style="color: red;">બાકી</b>{% else %}{{ city }}{% endif %}</td> 
           </tr>
           <br/>
           <tr>
 
-            <td><b>Phone No</b></td><td>  {% if phone_error %}<b style="color: red;">બાકી</b>{% else %}{{ phone }}{% endif %}</td> 
+            <td><b>ફોન નંબર</b></td><td>  {% if phone_error %}<b style="color: red;">બાકી</b>{% else %}{{ phone }}{% endif %}</td> 
           </tr>
         </table>
         <br/>
@@ -242,6 +360,13 @@
   </div>
     </form>
   </div>
+  <footer class="footer">
+    <div class="footer-content">
+        <p class="copyright">
+            &copy; 2023 HYPERVECT. All rights reserved.
+        </p>
+    </div>
+</footer>
     <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
     <script>
       // document.getElementById('name').value = "{{ name }}"
