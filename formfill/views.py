@@ -107,11 +107,20 @@ def mockform(request):
         }
         print(preValues)
         labels = ['name', 'district', 'city', 'phone', 'submit']
+
+        direction = request.POST['direction'] # prev | next
+        if(request.POST['currentField'] == 'submit' and direction == 'next'):
+            # Time to submit form
+            if(any([v== False for k, v in preValues.items()])):
+                # Time to abort
+                return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False, 'targetField': labels[prevIndex]})
+            else:
+                # No Errors, we can save the form
+                Person.objects.create(name=preValues['name'], district=preValues['district'], city=preValues['city'], mobile_number=preValues['phone'])
+                return render(request, 'success.html')
         nextIndex = labels.index(request.POST['currentField']) + 1
         prevIndex = max(labels.index(request.POST['currentField']) - 1, 0)
         name_audio_file = request.FILES.get(f"{request.POST['currentField']}_audio")
-
-        direction = request.POST['direction'] # prev | next
 
         if(not name_audio_file):
             # Mock Navigation with context data currentField
