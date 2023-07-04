@@ -112,22 +112,58 @@ def mockform(request):
         if(request.POST['currentField'] == 'submit' and direction == 'next'):
             # Time to submit form
             if(any([v== False for k, v in preValues.items()])):
+                audio_ids = {
+                'name_audio_id': request.POST['name_audio_id'] if request.POST['name_audio_id'].isdigit() else 'null', 
+                'district_audio_id': request.POST['district_audio_id'] if request.POST['district_audio_id'].isdigit() else 'null', 
+                'city_audio_id': request.POST['city_audio_id'] if request.POST['city_audio_id'].isdigit() else 'null', 
+                'phone_audio_id': request.POST['phone_audio_id'] if request.POST['phone_audio_id'].isdigit() else 'null', 
+            }
+                audio_previews = {
+                'name_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["name_audio_id"])) if audio_ids["name_audio_id"] != 'null' else None,
+                'district_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["district_audio_id"])) if audio_ids["district_audio_id"] != 'null' else None,
+                'city_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["city_audio_id"])) if audio_ids["city_audio_id"] != 'null' else None,
+                'phone_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["phone_audio_id"])) if audio_ids["phone_audio_id"] != 'null' else None,
+            }
                 # Time to abort
-                return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False, 'targetField': labels[prevIndex]})
+                return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False, 'targetField': labels[prevIndex], **audio_ids, **audio_previews})
             else:
+                audio_ids = {
+                'name_audio_id': request.POST['name_audio_id'] if request.POST['name_audio_id'].isdigit() else 'null', 
+                'district_audio_id': request.POST['district_audio_id'] if request.POST['district_audio_id'].isdigit() else 'null', 
+                'city_audio_id': request.POST['city_audio_id'] if request.POST['city_audio_id'].isdigit() else 'null', 
+                'phone_audio_id': request.POST['phone_audio_id'] if request.POST['phone_audio_id'].isdigit() else 'null', 
+            }
+                audio_previews = {
+                'name_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["name_audio_id"])) if audio_ids["name_audio_id"] != 'null' else None,
+                'district_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["district_audio_id"])) if audio_ids["district_audio_id"] != 'null' else None,
+                'city_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["city_audio_id"])) if audio_ids["city_audio_id"] != 'null' else None,
+                'phone_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["phone_audio_id"])) if audio_ids["phone_audio_id"] != 'null' else None,
+            }
                 # No Errors, we can save the form
-                Person.objects.create(name=preValues['name'], district=preValues['district'], city=preValues['city'], mobile_number=preValues['phone'])
+                Person.objects.create(name=preValues['name'], district=preValues['district'], city=preValues['city'], mobile_number=preValues['phone'], name_audio=audio_previews['name_audio_preview'].audio_file, district_audio=audio_previews['district_audio_preview'].audio_file, city_audio=audio_previews['city_audio_preview'].audio_file, phone_audio=audio_previews['phone_audio_preview'].audio_file)
                 return render(request, 'success.html')
         nextIndex = labels.index(request.POST['currentField']) + 1
         prevIndex = max(labels.index(request.POST['currentField']) - 1, 0)
         name_audio_file = request.FILES.get(f"{request.POST['currentField']}_audio")
 
         if(not name_audio_file):
+            audio_ids = {
+                'name_audio_id': request.POST['name_audio_id'] if request.POST['name_audio_id'].isdigit() else 'null', 
+                'district_audio_id': request.POST['district_audio_id'] if request.POST['district_audio_id'].isdigit() else 'null', 
+                'city_audio_id': request.POST['city_audio_id'] if request.POST['city_audio_id'].isdigit() else 'null', 
+                'phone_audio_id': request.POST['phone_audio_id'] if request.POST['phone_audio_id'].isdigit() else 'null', 
+            }
+            audio_previews = {
+                'name_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["name_audio_id"])) if audio_ids["name_audio_id"] != 'null' else None,
+                'district_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["district_audio_id"])) if audio_ids["district_audio_id"] != 'null' else None,
+                'city_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["city_audio_id"])) if audio_ids["city_audio_id"] != 'null' else None,
+                'phone_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["phone_audio_id"])) if audio_ids["phone_audio_id"] != 'null' else None,
+            }
             # Mock Navigation with context data currentField
             if(direction == 'next'):
-                return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False, 'targetField': labels[nextIndex]})
+                return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False, 'targetField': labels[nextIndex], **audio_ids, **audio_previews})
             else:
-                return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False, 'targetField': labels[prevIndex]})
+                return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False, 'targetField': labels[prevIndex], **audio_ids, **audio_previews})
 
         # form = UploadAudioFileForm(request.POST, request.FILES)
         # file_instance:AudioRecord
@@ -163,22 +199,49 @@ def mockform(request):
             print("Extracted::", text)
 
             preValues[request.POST['currentField']] = text # currentField
+            audio_ids = {
+                'name_audio_id': request.POST['name_audio_id'] if request.POST['name_audio_id'].isdigit() else 'null', 
+                'district_audio_id': request.POST['district_audio_id'] if request.POST['district_audio_id'].isdigit() else 'null', 
+                'city_audio_id': request.POST['city_audio_id'] if request.POST['city_audio_id'].isdigit() else 'null', 
+                'phone_audio_id': request.POST['phone_audio_id'] if request.POST['phone_audio_id'].isdigit() else 'null', 
+            }
+            audio_ids[f"{request.POST['currentField']}_audio_id"] = file_instance.pk
+            audio_previews = {
+                'name_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["name_audio_id"])) if audio_ids["name_audio_id"] != 'null' else None,
+                'district_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["district_audio_id"])) if audio_ids["district_audio_id"] != 'null' else None,
+                'city_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["city_audio_id"])) if audio_ids["city_audio_id"] != 'null' else None,
+                'phone_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["phone_audio_id"])) if audio_ids["phone_audio_id"] != 'null' else None,
+            }
             if(direction == 'next'):
-                return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False, 'targetField': labels[nextIndex]})
+                return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False, 'targetField': labels[nextIndex], **audio_ids, **audio_previews})
             else:
-                return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False, 'targetField': labels[prevIndex]})
+                return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False, 'targetField': labels[prevIndex], **audio_ids, **audio_previews})
 
         except Exception as e:
             preValues[request.POST['currentField']] = False
+            audio_ids = {
+                'name_audio_id': request.POST['name_audio_id'] if request.POST['name_audio_id'].isdigit() else 'null', 
+                'district_audio_id': request.POST['district_audio_id'] if request.POST['district_audio_id'].isdigit() else 'null', 
+                'city_audio_id': request.POST['city_audio_id'] if request.POST['city_audio_id'].isdigit() else 'null', 
+                'phone_audio_id': request.POST['phone_audio_id'] if request.POST['phone_audio_id'].isdigit() else 'null', 
+            }
+            audio_ids[f"{request.POST['currentField']}_audio_id"] = file_instance.pk
+            audio_previews = {
+                'name_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["name_audio_id"])) if audio_ids["name_audio_id"] != 'null' else None,
+                'district_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["district_audio_id"])) if audio_ids["district_audio_id"] != 'null' else None,
+                'city_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["city_audio_id"])) if audio_ids["city_audio_id"] != 'null' else None,
+                'phone_audio_preview': AudioRecord.objects.get(pk=int(audio_ids["phone_audio_id"])) if audio_ids["phone_audio_id"] != 'null' else None,
+            }
+
             # Error parsing text
-            return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False, 'targetField': request.POST['currentField']})
+            return render(request, 'mockform.html', context={**preValues, 'name_error': preValues['name'] == False, 'city_error': preValues['city'] == False, 'phone_error': preValues['phone'] == False, 'district_error': preValues['district'] == False, 'targetField': request.POST['currentField'], **audio_ids, **audio_previews})
 
     else:
         return render(request, 'mockform.html', context={'name': '',
             'city': '',
             'district': '',
             'phone': '',
-        'name_error': False,'city_error': False,'district_error': False,'phone_error': False, 'targetField': 'name'
+        'name_error': False,'city_error': False,'district_error': False,'phone_error': False, 'targetField': 'name', 'name_audio_id': 'null','district_audio_id': 'null','city_audio_id': 'null','phone_audio_id': 'null', 'name_audio_preview': None, 'district_audio_preview': None, 'city_audio_preview': None, 'phone_audio_preview': None,
         })
 
 
