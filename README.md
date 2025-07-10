@@ -1,19 +1,16 @@
-# 🗣️ TTS Form – Voice-Enabled Form Submission
+# 🗣️ TTS Form – Voice & Language Enabled Forms
 
-A voice-to-text powered form system designed to make digital form filling accessible to people in rural or less-educated regions — especially where typing in local languages like **Gujarati** is a challenge.  
-
-Users can speak into the system, and the backend automatically recognizes and transcribes the speech into **Gujarati**, populating the form accordingly.
+**TTS Form** is an accessibility-first form application built to empower users in rural or under-educated regions who face barriers like typing or reading in local languages.  
+It enables people to **speak their responses** and also **visually understand form fields** through **local language translations**.
 
 ---
 
-## 🎯 Purpose
+## 🎯 Project Goals
 
-This project bridges the digital divide by eliminating the need for typing skills or English literacy. It's especially helpful for:
+- ✅ **Speech-Based Input:** Users can fill out forms by recording their voice, which is transcribed and auto-filled into input fields.  
+- ✅ **Local Language Support:** For users who cannot **read field labels**, buttons allow them to **translate labels (e.g., to Gujarati)**, making it easier to understand what’s being asked.  
 
-- Government or NGO surveys in villages  
-- Rural digital kiosks  
-- Form filling for elder users  
-- Language-specific accessibility use cases
+This dual-approach ensures inclusivity for both **non-typists** and **non-readers**, promoting truly accessible digital interaction.
 
 ---
 
